@@ -44,6 +44,7 @@ PHP_MINFO_FUNCTION(drizzle);
 
 PHP_FUNCTION(drizzle_create);
 PHP_FUNCTION(drizzle_quit);
+PHP_FUNCTION(drizzle_strerror);
 PHP_FUNCTION(drizzle_binlog_init);
 PHP_FUNCTION(drizzle_binlog_start);
 PHP_FUNCTION(drizzle_binlog_event_type);

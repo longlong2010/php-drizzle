@@ -71,6 +71,7 @@ ZEND_END_ARG_INFO()
 const zend_function_entry drizzle_functions[] = {
     PHP_FE(drizzle_create, NULL)
     PHP_FE(drizzle_quit, NULL)
+    PHP_FE(drizzle_strerror, NULL)
     PHP_FE(drizzle_binlog_init, arginfo_drizzle_binlog_init)
     PHP_FE(drizzle_binlog_start, NULL)
     PHP_FE(drizzle_binlog_event_type, NULL)
@@ -272,6 +273,15 @@ PHP_FUNCTION(drizzle_quit) {
     ZEND_FETCH_RESOURCE(drizzle, php_drizzle*, &zdrizzle, -1, "drizzle", le_drizzle);
     long rc = drizzle_quit(drizzle->conn);
     RETURN_LONG(rc);
+}
+
+PHP_FUNCTION(drizzle_strerror) {
+    long error_code;
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &error_code) == FAILURE) {
+        return;
+    }
+    const char* error_str = drizzle_strerror((drizzle_return_t)error_code);
+    RETURN_STRING(error_str, 1);
 }
 
 static void _php_drizzle_binlog_event_callback(drizzle_binlog_event_st* event, void* arg) {
